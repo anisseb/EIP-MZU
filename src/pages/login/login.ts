@@ -6,10 +6,14 @@ import { TwitterConnect, TwitterConnectResponse } from '@ionic-native/twitter-co
 import $ from "jquery";
 import {ServiceVarProvider } from '../../providers/service-var/service-var';
 import { SettingsPage } from '../settings/settings';
+
 import { Observable } from 'rxjs/Observable';
 import { HttpClient } from '@angular/common/http';
 import 'rxjs/add/operator/first';
 import { TabsControllerPage } from '../tabs-controller/tabs-controller';
+import { VideoPlayer } from '@ionic-native/video-player';
+
+import { DomSanitizer } from '@angular/platform-browser';
 
 /**
  * Generated class for the LoginPage page.
@@ -23,6 +27,7 @@ import { TabsControllerPage } from '../tabs-controller/tabs-controller';
   selector: 'page-login',
   templateUrl: 'login.html',
 })
+
 export class LoginPage {
   Log: any;
   UserData: any;
@@ -31,15 +36,28 @@ export class LoginPage {
   public jsonObject: any;
   public data:any;
   public zizou: any;
+  public items: any;
+  
   
 
   constructor(public navCtrl: NavController, public navParams: NavParams ,private fb: Facebook,private twitter: TwitterConnect,
-    public ServiceVarProvider:ServiceVarProvider, private http: HttpClient, public loadingController:LoadingController ) {
+    public ServiceVarProvider:ServiceVarProvider, private http: HttpClient, public loadingController:LoadingController, private videoPlayer: VideoPlayer,  public _DomSanitizer: DomSanitizer ) {
+
+
+     this.items = _DomSanitizer.bypassSecurityTrustUrl("http://martinpras.eu/background/background.mp4");
 
    this.Log = this.navParams.get('Logout');
    if (this.Log == 42)
      this.logout();
 
+ }
+
+ PlayVideo() {
+  this.videoPlayer.play('http://martinpras.eu/background/background.mp4').then(() => {
+    console.log('video completed');
+   }).catch(err => {
+    console.log(err);
+   });
  }
 
 
@@ -51,10 +69,12 @@ export class LoginPage {
       this.fb.api('me?fields=id,first_name, last_name, email,birthday,friends,likes,picture.width(320).height(220).as(picture_large)', []).then(profile => {
         this.UserData = {email: profile['email'], first_name: profile['first_name'], last_name: profile['last_name'],birthday: profile['birthday'], picture: profile['picture_large']['data']['url']}
 
+        this.ServiceVarProvider.PicURL = profile['picture_large']['data']['url'];
         this.ServiceVarProvider.NetworkId = res.authResponse.userID;
         this.ServiceVarProvider.FbSecret = res.authResponse.secret;
        this.ServiceVarProvider.FbAccessToken =  res.authResponse.accessToken;
         this.RegisterUserbyFb(profile);
+        this.navCtrl.push(TabsControllerPage,{data : this.UserData });
         
     });
 
@@ -125,8 +145,9 @@ getUserDataFb() {
         username: user.screen_name,
         followers: user.followers_count,
         picture: user.profile_image_url_https}
-        console.log(this.UserData.first_name);
-        this.ServiceVarProvider.NetworkId = res.userId;
+        //console.log(this.UserData.picture);
+        this.ServiceVarProvider.PicURL = this.UserData.picture;
+        this.ServiceVarProvider.NetworkIdTwitter = res.userId;
         this.ServiceVarProvider.TwitterAccessToken = res.token;
         this.ServiceVarProvider.TwitterSecret = res.secret
       this.navCtrl.push(TabsControllerPage,{data : this.UserData });
@@ -164,7 +185,7 @@ getUserDataFb() {
     var form = new FormData();
     form.append("user_id", this.data.id);
     form.append("type", "2");
-    form.append("network_id", this.ServiceVarProvider.NetworkId);
+    form.append("network_id", this.ServiceVarProvider.NetworkIdTwitter);
     form.append("secret_token", this.ServiceVarProvider.TwitterSecret);
     form.append("access_token", this.ServiceVarProvider.TwitterAccessToken);
     form.append("refresh_token", "34567890");

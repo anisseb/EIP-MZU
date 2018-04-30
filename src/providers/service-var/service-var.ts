@@ -15,7 +15,9 @@ export class ServiceVarProvider {
   public FbSecret: any;
   public TwitterSecret: any;
   public NetworkId: any;
+  public NetworkIdTwitter: any;
   public TwitterAccessToken: any;
+  public PicURL: any;
 
   constructor(private http: HttpClient) {
  
