@@ -1,0 +1,38 @@
+<!--
+  Generated template for the SettingsPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Settings</ion-title>
+  </ion-navbar>
+
+</ion-header>
+<ion-content padding="true" class="has-header">
+  <form id="addYourFavoriteSocialMedia-form2" class="list">
+    <label class="item item-input" id="addYourFavoriteSocialMedia-search1">
+      <i class="icon ion-search placeholder-icon"></i>
+      <input type="search" placeholder="Search your app" style="width:100%;">
+    </label>
+    <div id="addYourFavoriteSocialMedia-markdown1" style="text-align:center;" class="show-list-numbers-and-dots">
+      <p style="color:#000000;">Our IA need all informations on your applications to improve the results </p>
+    </div>
+    <ion-list>
+      <ion-item>
+        <ion-label>Facebook</ion-label>
+        <ion-toggle [(ngModel)]="ToggleFb" (ionChange)="Fblogin()" name="ToggleFb"></ion-toggle>
+      </ion-item>
+      <ion-item>
+        <ion-label>Twitter</ion-label>
+        <ion-toggle [(ngModel)]="ToggleTwitter" name="ToggleTwitter"></ion-toggle>
+      </ion-item>
+      <ion-item>
+        <ion-label>Google</ion-label>
+        <ion-toggle ></ion-toggle>
+      </ion-item>
+    </ion-list>
+  </form>
+</ion-content>

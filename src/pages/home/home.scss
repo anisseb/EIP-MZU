@@ -1,0 +1,52 @@
+page-home {
+
+.position-profil-user{
+    position: relative;
+    left: 50%;
+    top: 50%;
+}
+
+.radius-profil{
+    border-radius: 74px;
+    height: 38px;
+    width: 38px;
+}
+
+ul {
+    position: relative;
+    left: 33%;
+    padding-top: 64%;
+    list-style-type: none;
+}
+li {
+    position: absolute;
+    -webkit-transition: all 2s linear;
+    -moz-transition: all 2s linear;
+    transition: all 2s linear;
+}
+
+.color-theme{
+    background-color:#3b5998;
+    font-size: 1.7rem;
+    color: white;
+    font-weight: 600;
+
+
+}
+
+
+
+video {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    background: url('../../assets/video/background.mp4') no-repeat;
+    height: auto;
+    z-index: -100;
+    transform: translateX(-50%) translateY(-50%);
+}
+
+}

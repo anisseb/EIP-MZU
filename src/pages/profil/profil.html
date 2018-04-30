@@ -1,0 +1,26 @@
+<ion-header>
+
+  <ion-navbar hideBackButton>
+    <ion-title>profil</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding  id="page2">
+  
+    <ion-card *ngIf="UserData">
+        <img *ngIf="UserData.picture" [src]="UserData.picture" />
+        <ion-card-content>
+          <p>Email: {{ UserData.email }}</p>
+          <p>Name: {{ UserData.first_name }} {{ UserData.last_name }}</p>
+        </ion-card-content>
+      </ion-card>
+
+      <div class="button-bar">
+   
+
+          <button style="left:35%;right:50%;" ion-button color="danger" (click)="Logout()">Logout</button>
+      </div>
+
+</ion-content>
