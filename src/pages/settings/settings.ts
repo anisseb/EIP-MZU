@@ -18,6 +18,7 @@ export class SettingsPage {
   UserData: any;
   public zizou: any;
   public ToggleFb: boolean = false;
+  public TogglePrinterest:boolean = false;
   DataId: any;
   public data:any;
   public ToggleTwitter: boolean = false;
