@@ -18,11 +18,14 @@ import 'rxjs/add/operator/first';
 })
 export class HomePage {
 
+  public PictureURL: any;
   
   constructor(public navCtrl: NavController, public navParams: NavParams ,private fb: Facebook,private twitter: TwitterConnect,
      public ServiceVarProvider:ServiceVarProvider, private http: HttpClient, public loadingController:LoadingController ) {
  
-    
+
+      this.PictureURL = this.ServiceVarProvider.PicURL;
+
   }
   ngAfterViewInit(){
     $(document).ready(function(){

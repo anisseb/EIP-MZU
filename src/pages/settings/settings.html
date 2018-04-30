@@ -23,14 +23,18 @@
     <ion-list>
       <ion-item>
         <ion-label>Facebook</ion-label>
-        <ion-toggle [(ngModel)]="ToggleFb" (ionChange)="Fblogin()" name="ToggleFb"></ion-toggle>
+        <ion-toggle [(ngModel)]="ToggleFb" id="btn_facebook" (ionChange)="Fblogin()" name="ToggleFb"></ion-toggle>
       </ion-item>
       <ion-item>
         <ion-label>Twitter</ion-label>
-        <ion-toggle [(ngModel)]="ToggleTwitter" name="ToggleTwitter"></ion-toggle>
+        <ion-toggle [(ngModel)]="ToggleTwitter" id="btn_twitter" (ionChange)="TweetLogin()" name="ToggleTwitter"></ion-toggle>
       </ion-item>
       <ion-item>
         <ion-label>Google</ion-label>
+        <ion-toggle ></ion-toggle>
+      </ion-item>
+      <ion-item>
+        <ion-label>Pinterest</ion-label>
         <ion-toggle ></ion-toggle>
       </ion-item>
     </ion-list>
