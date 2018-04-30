@@ -6,13 +6,7 @@ import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
 import { ProfilPage } from '../profil/profil'
 import { TwitterConnect, TwitterConnectResponse } from '@ionic-native/twitter-connect';
 import { TabsControllerPage } from '../tabs-controller/tabs-controller';
-
-/**
- * Generated class for the SettingsPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { Pinterest, PinterestUser, PinterestPin, PinterestBoard } from '@ionic-native/pinterest';
 
 @IonicPage()
 @Component({
@@ -29,7 +23,7 @@ export class SettingsPage {
   public ToggleTwitter: boolean = false;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public ServiceVarProvider:ServiceVarProvider,
-     private fb: Facebook, private twitter: TwitterConnect) {
+     private fb: Facebook, private twitter: TwitterConnect,private pinterest: Pinterest) {
 
     
     this.UserData = this.ServiceVarProvider.UserId;
@@ -48,6 +42,18 @@ export class SettingsPage {
   }
 
 
+  PrintestConnexion()
+  {
+    const scopes = [
+      this.pinterest.SCOPES.READ_PUBLIC,
+      this.pinterest.SCOPES.WRITE_PUBLIC,
+      this.pinterest.SCOPES.READ_RELATIONSHIPS,
+      this.pinterest.SCOPES.WRITE_RELATIONSHIPS
+    ];
+    this.pinterest.login(scopes)
+      .then(res => console.log('Logged in!', res))
+      .catch(err => console.error('Error loggin in', err));
+  }
   
   FacebookConnexion(zizou){
     if(this.zizou.facebook_linked == 2)
