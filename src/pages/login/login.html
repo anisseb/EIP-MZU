@@ -6,19 +6,15 @@
 -->
 <ion-header>
 
-  <ion-navbar hideBackButton>
+  <ion-navbar hideBackButton color="primary">
     <ion-title>
       Authentifiication
     </ion-title>
   </ion-navbar>
 </ion-header>
-
-<ion-content overflow-scroll=“true” >
-  <video  autoplay="true" width="100%"><source [src]="items" type="video/mp4"></video>
-</ion-content>
-<ion-content padding>
-  <img src="assets/imgs/IZf0drpTz2h9W4ueCtf1_Meet.png" style="display:block;width:70%;height:auto;margin-left:auto;margin-right:auto;" />
+<ion-content padding color="primary" style="background-color:#c6cbd4;" overflow-scroll="true">
+  <h2 class="title-login">MeetZemUp</h2>
   
-  <button ion-button full (click)="Fblogin(null)">Connect With Facebook</button>
-  <button ion-button full (click)="TweetLogin()">Connect With Twitter</button>
+  <button ion-button full (click)="Fblogin(null)"><ion-icon class="position-btn" name="logo-facebook"></ion-icon>Connect With Facebook</button>
+  <button ion-button full (click)="TweetLogin()"><ion-icon class="position-btn" name="logo-twitter"></ion-icon>Connect With Twitter</button>
 </ion-content>

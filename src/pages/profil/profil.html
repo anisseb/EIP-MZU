@@ -1,13 +1,13 @@
 <ion-header>
 
-  <ion-navbar hideBackButton>
+  <ion-navbar hideBackButton color="primary">
     <ion-title>profil</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
-<ion-content padding  id="page2">
+<ion-content padding  id="page2" style="background-color:#c6cbd4;">
   
     <ion-card *ngIf="UserData">
         <img *ngIf="UserData.picture" [src]="UserData.picture" />

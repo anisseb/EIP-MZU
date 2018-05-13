@@ -5,7 +5,6 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 
 import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
-import { Pinterest, PinterestUser, PinterestPin, PinterestBoard } from '@ionic-native/pinterest';
 import { TwitterConnect } from '@ionic-native/twitter-connect';
 import { Camera } from '@ionic-native/camera';
 import { MyApp } from './app.component';
@@ -18,6 +17,8 @@ import { ServiceVarProvider } from '../providers/service-var/service-var';
 import { TabsControllerPage } from '../pages/tabs-controller/tabs-controller';
 import { LoginPage } from '../pages/login/login';
 import { VideoPlayer } from '@ionic-native/video-player';
+import { GooglePlus } from '@ionic-native/google-plus';
+import { Pinterest, PinterestUser, PinterestPin, PinterestBoard } from '@ionic-native/pinterest';
 
 
 
@@ -53,6 +54,7 @@ import { VideoPlayer } from '@ionic-native/video-player';
     HttpClientModule,
     Facebook,
     Pinterest,
+    GooglePlus,
     ServiceVarProvider,
     TwitterConnect,
     SplashScreen,

@@ -14,6 +14,7 @@ import { TabsControllerPage } from '../tabs-controller/tabs-controller';
 import { VideoPlayer } from '@ionic-native/video-player';
 
 import { DomSanitizer } from '@angular/platform-browser';
+import { HomePage } from '../home/home';
 
 /**
  * Generated class for the LoginPage page.
@@ -44,7 +45,7 @@ export class LoginPage {
     public ServiceVarProvider:ServiceVarProvider, private http: HttpClient, public loadingController:LoadingController, private videoPlayer: VideoPlayer,  public _DomSanitizer: DomSanitizer ) {
 
 
-     this.items = _DomSanitizer.bypassSecurityTrustUrl("http://martinpras.eu/background/background.mp4");
+    // this.items = _DomSanitizer.bypassSecurityTrustUrl("http://martinpras.eu/background/background.mp4");
 
    this.Log = this.navParams.get('Logout');
    if (this.Log == 42)
@@ -74,7 +75,7 @@ export class LoginPage {
         this.ServiceVarProvider.FbSecret = res.authResponse.secret;
        this.ServiceVarProvider.FbAccessToken =  res.authResponse.accessToken;
         this.RegisterUserbyFb(profile);
-        this.navCtrl.push(TabsControllerPage,{data : this.UserData });
+        
         
     });
 
@@ -128,11 +129,20 @@ getUserDataFb() {
     });
 
   this.ServiceVarProvider.getUser(this.data.id).first().subscribe(rep => this.zizou = rep,
-    error => console.log("Error: ", error),
+    error => console.log("ErrorGetUser: ", error),
     () => {
        this.ServiceVarProvider.UserInfo = this.zizou;
         this.ServiceVarProvider.UserId = this.data.id;
     });
+
+
+    console.log("ID:", this.data.id);
+    this.ServiceVarProvider.getMatchbyUser(this.data.id).first().subscribe(rep => this.zizou = rep,
+      error => console.log("ErrorGetMatchByID: ", error['msg']),
+      () => {
+         this.ServiceVarProvider.Match = this.zizou;
+         this.navCtrl.push(TabsControllerPage,{data : this.UserData });
+      });
 }
 
 
@@ -149,8 +159,7 @@ getUserDataFb() {
         this.ServiceVarProvider.PicURL = this.UserData.picture;
         this.ServiceVarProvider.NetworkIdTwitter = res.userId;
         this.ServiceVarProvider.TwitterAccessToken = res.token;
-        this.ServiceVarProvider.TwitterSecret = res.secret
-      this.navCtrl.push(TabsControllerPage,{data : this.UserData });
+        this.ServiceVarProvider.TwitterSecret = res.secret;
       this.RegisterUserbyTwitter(this.UserData);
     });
 
@@ -174,7 +183,7 @@ getUserDataFb() {
 
 
         this.ServiceVarProvider.createUser(form).first().subscribe(rep => this.data = rep,
-          error => console.log("Error: ", error),
+          error => console.log("ErrorRegisterUser: ", error),
           () => this.getUserDataTwitter());
   
   
@@ -194,16 +203,25 @@ getUserDataFb() {
   
     console.log(this.data.id);
     this.ServiceVarProvider.addToken(form).first().subscribe(rep => this.zizou = rep,
-      error => console.log("Error: ", error),
+      error => console.log("ErrorAddTokenUser: ", error),
       () => {
          console.log(this.zizou.msg);
       });
   
     this.ServiceVarProvider.getUser(this.data.id).first().subscribe(rep => this.zizou = rep,
-      error => console.log("Error: ", error),
+      error => console.log("ErrorgetUser: ", error),
       () => {
          this.ServiceVarProvider.UserInfo = this.zizou;
           this.ServiceVarProvider.UserId = this.data.id;
+      });
+
+
+      console.log("ID:", this.data.id);
+    this.ServiceVarProvider.getMatchbyUser(this.data.id).first().subscribe(rep => this.zizou = rep,
+      error => console.log("ErrorGetMatchByID: ", error['msg']),
+      () => {
+         this.ServiceVarProvider.Match = this.zizou;
+         this.navCtrl.push(TabsControllerPage,{data : this.UserData });
       });
   }
   

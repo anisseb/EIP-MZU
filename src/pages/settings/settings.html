@@ -6,12 +6,12 @@
 -->
 <ion-header>
 
-  <ion-navbar>
+  <ion-navbar color="primary">
     <ion-title>Settings</ion-title>
   </ion-navbar>
 
 </ion-header>
-<ion-content padding="true" class="has-header">
+<ion-content padding="true" class="has-header" style="background-color:#c6cbd4;">
   <form id="addYourFavoriteSocialMedia-form2" class="list">
     <label class="item item-input" id="addYourFavoriteSocialMedia-search1">
       <i class="icon ion-search placeholder-icon"></i>
@@ -31,11 +31,11 @@
       </ion-item>
       <ion-item>
         <ion-label>Google</ion-label>
-        <ion-toggle ></ion-toggle>
+        <ion-toggle [(ngModel)]="ToggleGoogle" id="btn_google" (ionChange)="GoogleLogin()" name="ToggleGoogle"></ion-toggle>
       </ion-item>
       <ion-item>
         <ion-label>Pinterest</ion-label>
-        <ion-toggle [(ngModel)]="TogglePrinterest" id="btn_printerest" (ionChange)="PrintestConnexion()" name="TogglePrinterest" ></ion-toggle>
+        <ion-toggle  [(ngModel)]="TogglePinterest" id="btn_pinterest" (ionChange)="PinterestLogin()" name="TogglePinterest" ></ion-toggle>
       </ion-item>
     </ion-list>
   </form>

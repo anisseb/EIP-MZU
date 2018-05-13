@@ -6,7 +6,15 @@ import { Facebook, FacebookLoginResponse } from '@ionic-native/facebook';
 import { ProfilPage } from '../profil/profil'
 import { TwitterConnect, TwitterConnectResponse } from '@ionic-native/twitter-connect';
 import { TabsControllerPage } from '../tabs-controller/tabs-controller';
+import { GooglePlus } from '@ionic-native/google-plus';
 import { Pinterest, PinterestUser, PinterestPin, PinterestBoard } from '@ionic-native/pinterest';
+
+/**
+ * Generated class for the SettingsPage page.
+ *
+ * See https://ionicframework.com/docs/components/#navigation for more info on
+ * Ionic pages and navigation.
+ */
 
 @IonicPage()
 @Component({
@@ -18,13 +26,19 @@ export class SettingsPage {
   UserData: any;
   public zizou: any;
   public ToggleFb: boolean = false;
-  public TogglePrinterest:boolean = false;
   DataId: any;
   public data:any;
   public ToggleTwitter: boolean = false;
+  public ToggleGoogle: boolean = false;
+  public TogglePinterest: boolean = false;
+  displayName: any;
+  email: any;
+  familyName: any;
+  givenName: any;
+  imageUrl: any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public ServiceVarProvider:ServiceVarProvider,
-     private fb: Facebook, private twitter: TwitterConnect,private pinterest: Pinterest) {
+     private fb: Facebook, private twitter: TwitterConnect, private googlePlus: GooglePlus, private pinterest: Pinterest) {
 
     
     this.UserData = this.ServiceVarProvider.UserId;
@@ -32,38 +46,25 @@ export class SettingsPage {
     this.ServiceVarProvider.getUser(this.UserData).first().subscribe(rep => this.zizou = rep,
 			error => console.log("Error: ", error),
 			() => {
-        this.FacebookConnexion(this.zizou);
+        if(this.zizou.facebook_linked == 2)
+        {
+           this.ToggleFb = true;
+           $('#btn_facebook').css('pointer-events','none');
+        }
          if(this.zizou.twitter_linked == 2)
          {
            this.ToggleTwitter = true;
            $('#btn_twitter').css('pointer-events','none');
          }
+         if(this.zizou.gplus_linked == 2)
+         {
+           this.ToggleGoogle = true;
+          $('#btn_google').css('pointer-events','none');
+         }
     	});
 
   }
 
-
-  PrintestConnexion()
-  {
-    const scopes = [
-      this.pinterest.SCOPES.READ_PUBLIC,
-      this.pinterest.SCOPES.WRITE_PUBLIC,
-      this.pinterest.SCOPES.READ_RELATIONSHIPS,
-      this.pinterest.SCOPES.WRITE_RELATIONSHIPS
-    ];
-    this.pinterest.login(scopes)
-      .then(res => console.log('Logged in!', res))
-      .catch(err => console.error('Error loggin in', err));
-  }
-  
-  FacebookConnexion(zizou){
-    if(this.zizou.facebook_linked == 2)
-    {
-       this.ToggleFb = true;
-       $('#btn_facebook').css('pointer-events','none');
-    }
-   
-  }
 
  
 
@@ -132,7 +133,7 @@ export class SettingsPage {
 
   TweetLogin()
   {
-    //Request for login
+    //Request for qlogin
    this.twitter.login().then((res: TwitterConnectResponse) =>{
     this.twitter.showUser().then(user => {
       this.UserData = {first_name: user.name,
@@ -142,7 +143,12 @@ export class SettingsPage {
         console.log(this.UserData.first_name);
         this.ServiceVarProvider.NetworkIdTwitter = res.userId;
         this.ServiceVarProvider.TwitterAccessToken = res.token;
-        this.ServiceVarProvider.TwitterSecret = res.secret
+        this.ServiceVarProvider.TwitterSecret = res.secret;
+     /*   this.ServiceVarProvider.ServiceAPI(res.userId).first().subscribe(rep => this.zizou = rep,
+          error => console.log("ErrorServiceAPI: ", error),
+          () => {
+            console.log(this.zizou);
+          }); */
      // this.navCtrl.push(TabsControllerPage,{data : this.UserData });
       this.RegisterUserbyTwitter(this.UserData);
     });
@@ -204,5 +210,73 @@ export class SettingsPage {
     //this.UserData = this.navParams.get('Data2');
     //console.log(this.UserData);
   }
+
+
+GoogleLogin(){
+
+  this.googlePlus.login({})
+  .then(res => {
+    this.displayName = res.displayName;
+    this.email = res.email;
+    this.familyName = res.familyName;
+    this.givenName = res.givenName;
+    this.imageUrl = res.imageUrl;
+    this.ServiceVarProvider.GoogleAccessToken = res.accessToken;
+    this.UpdateUserByGoogle();
+  })
+  .catch(err => console.error(err));
+}
+
+
+UpdateUserByGoogle()
+{
+
+
+  //Update user
+  var form = new FormData();
+  form.append("gplus_linked", "2");
+      
+      this.ServiceVarProvider.updateUser(form).first().subscribe(rep => this.data = rep,
+        error => console.log("ErrorUpdatebyGoogle: ", error),
+        () => this.getUserDataGoogle());
+
+
+}
+
+getUserDataGoogle() {
+
+  var form = new FormData();
+  form.append("user_id", this.ServiceVarProvider.UserId);
+  form.append("type", "4");
+  form.append("access_token",  this.ServiceVarProvider.GoogleAccessToken);
+
+
+  console.log(this.ServiceVarProvider.UserId);
+  console.log(this.ServiceVarProvider.GoogleAccessToken);
+  this.ServiceVarProvider.addToken(form).first().subscribe(rep => this.zizou = rep,
+    error => console.log("ErrorAddTokenGoogle: ", error['msg']),
+    () => {
+       console.log(this.zizou.msg);
+    });
+}
+
+
+PinterestLogin()
+  {
+    const scopes = [
+      this.pinterest.SCOPES.READ_PUBLIC,
+      this.pinterest.SCOPES.WRITE_PUBLIC,
+      this.pinterest.SCOPES.READ_RELATIONSHIPS,
+      this.pinterest.SCOPES.WRITE_RELATIONSHIPS
+    ];
+
+
+    this.pinterest.login(scopes)
+    .then(res => console.log('Logged in!', res))
+    .catch(err => console.error('Error loggin in', err));
+
+  }
+
+
 
 }

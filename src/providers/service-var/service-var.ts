@@ -11,13 +11,20 @@ import { Injectable } from '@angular/core';
 export class ServiceVarProvider {
   public UserId: any;
   public UserInfo: any;
+  public NetworkId: any;
   public FbAccessToken: any;
   public FbSecret: any;
+  public Match: any;
+
   public TwitterSecret: any;
-  public NetworkId: any;
   public NetworkIdTwitter: any;
   public TwitterAccessToken: any;
+
+  public GoogleSecret: any;
+  public NetworkIdGoogle: any;
+  public GoogleAccessToken: any;
   public PicURL: any;
+
 
   constructor(private http: HttpClient) {
  
@@ -36,9 +43,22 @@ export class ServiceVarProvider {
     return this.http.post('http://martinpras.eu/meetzemup/token/create', form);
   }
 
+
+  ServiceAPI(id){
+    console.log(id);
+    return this.http.get('http://martinpras.eu/get_data/twitter/twitter.php?user_id='+ id);
+    
+    
+  }
+
+
+  getMatchbyUser(id){
+    return this.http.get('http://martinpras.eu/meetzemup/match/getbyuser/'+ id);
+  }
+
+
   updateUser(data)
   {
-    console.log(this.UserId);
     return this.http.post('http://martinpras.eu/meetzemup/user/update/'+ this.UserId, data)
   }
 

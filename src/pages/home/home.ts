@@ -19,14 +19,20 @@ import 'rxjs/add/operator/first';
 export class HomePage {
 
   public PictureURL: any;
+  public zizou: any;
   
   constructor(public navCtrl: NavController, public navParams: NavParams ,private fb: Facebook,private twitter: TwitterConnect,
      public ServiceVarProvider:ServiceVarProvider, private http: HttpClient, public loadingController:LoadingController ) {
  
 
       this.PictureURL = this.ServiceVarProvider.PicURL;
+      console.log(this.ServiceVarProvider.Match['1']['mate']['first_name']);
+      console.log(this.ServiceVarProvider.Match['2']['mate']['first_name']);
+      console.log(this.ServiceVarProvider.Match['3']['mate']['first_name']);
 
   }
+
+  
   ngAfterViewInit(){
     $(document).ready(function(){
        
@@ -50,6 +56,8 @@ export class HomePage {
     
 
     });
+
+ 
 }
 
 
